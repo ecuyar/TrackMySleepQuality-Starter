@@ -9,13 +9,12 @@ import androidx.room.RoomDatabase
 
 //exportSchema keeps history of schema versions
 @Database(entities = [SleepNight::class], version = 1, exportSchema = false)
-abstract class SleepDatabase() : RoomDatabase(), Parcelable {
-    constructor(parcel: Parcel) : this() {
-    }
+abstract class SleepDatabase : RoomDatabase() {
 
-    abstract val sleepDatabase: SleepDatabaseDao
+    abstract val sleepDatabaseDao: SleepDatabaseDao
 
     companion object {
+
         @Volatile
         private var INSTANCE: SleepDatabase? = null
 
@@ -27,7 +26,8 @@ abstract class SleepDatabase() : RoomDatabase(), Parcelable {
                     instance = Room.databaseBuilder(
                             context.applicationContext,
                             SleepDatabase::class.java,
-                            "sleep_history_database")
+                            "sleep_history_database"
+                    )
                             .fallbackToDestructiveMigration()
                             .build()
                     INSTANCE = instance
