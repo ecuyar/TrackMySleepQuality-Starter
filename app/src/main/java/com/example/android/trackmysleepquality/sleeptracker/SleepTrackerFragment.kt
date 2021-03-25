@@ -22,7 +22,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.trackmysleepquality.R
+import com.example.android.trackmysleepquality.database.SleepDatabase
+import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 
 /**
@@ -40,9 +43,28 @@ class SleepTrackerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        // Get a reference to the binding object and inflate the fragment views.
+        //Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_sleep_tracker, container, false)
+
+        //In SleepTrackerFragment.kt, get a reference to the application context
+        val application = requireNotNull(this.activity).application
+
+        //You need a reference to your data source via a reference to the DAO
+        val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
+
+        //In onCreateView(), before the return, create an instance of the viewModelFactory. You need to pass it dataSource and the application
+        val viewModelFactory = SleepTrackerViewModelFactory(dataSource, application)
+
+        //get a reference to the SleepTrackerViewModel
+        val sleepTrackerViewModel = ViewModelProvider(this, viewModelFactory).get(SleepTrackerViewModel::class.java)
+
+        //Set the current activity as the lifecycle owner of the binding
+        //binding.setLifecycleOwner(this) //old assign
+        binding.lifecycleOwner = this //auto-corrected
+
+        //Assign the sleepTrackerViewModel binding variable to the sleepTrackerViewModel
+        binding.sleepTrackerViewModel = sleepTrackerViewModel
 
         return binding.root
     }
