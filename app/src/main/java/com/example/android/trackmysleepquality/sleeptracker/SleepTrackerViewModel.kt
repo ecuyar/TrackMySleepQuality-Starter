@@ -103,6 +103,19 @@ class SleepTrackerViewModel(
         database.clear()
     }
 
+    //    The Start button should be enabled when tonight is null.
+    //    The Stop button should be enabled when tonight is not null.
+    //    The Clear button should only be enabled if nights, and thus the database, contains sleep nights.
+    val startButtonVisible = Transformations.map(tonight) {
+        it == null
+    }
+    val stopButtonVisible = Transformations.map(tonight) {
+        it != null
+    }
+    val clearButtonVisible = Transformations.map(nights) {
+        it?.isNotEmpty()
+    }
+
 }
 
 
