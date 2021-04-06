@@ -106,4 +106,4 @@ fun formatNights(nights: List<SleepNight>, resources: Resources): Spanned {
     }
 }
 
-class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)
+class TextItemViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
