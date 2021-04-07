@@ -61,6 +61,10 @@ class SleepTrackerFragment : Fragment() {
         //get a reference to the SleepTrackerViewModel
         val sleepTrackerViewModel = ViewModelProvider(this, viewModelFactory).get(SleepTrackerViewModel::class.java)
 
+        //The RecyclerView needs to know about the adapter to use to get view holders
+        val adapter = SleepNightAdapter()
+        binding.sleepList.adapter = adapter
+
         //Set the current activity as the lifecycle owner of the binding
         //binding.setLifecycleOwner(this) //old assign
         binding.lifecycleOwner = this //auto-corrected
