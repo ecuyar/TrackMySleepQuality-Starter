@@ -31,7 +31,8 @@ class SleepTrackerViewModel(
         application: Application) : AndroidViewModel(application) {
 
     private var tonight = MutableLiveData<SleepNight?>()
-    private val nights = database.getAllNights()
+    //private removed because we will create an observer that needs to access this variable
+    val nights = database.getAllNights()
     private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
 
     val navigateToSleepWuqlity: LiveData<SleepNight>
