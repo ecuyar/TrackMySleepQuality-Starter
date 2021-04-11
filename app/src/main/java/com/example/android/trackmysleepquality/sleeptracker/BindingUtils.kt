@@ -17,12 +17,12 @@ fun TextView.setSleepDurationFormatted(item: SleepNight) {
     text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, context.resources)
 }
 
-@BindingAdapter("setSleepQualityString")
+@BindingAdapter("sleepQualityString")
 fun TextView.setSleepQualityString(item: SleepNight) {
     text = convertNumericQualityToString(item.sleepQuality, context.resources)
 }
 
-@BindingAdapter("setSleepImage")
+@BindingAdapter("sleepImage")
 fun ImageView.setSleepImage(item: SleepNight) {
     setImageResource(when (item.sleepQuality) {
         0 -> R.drawable.sleep_0
