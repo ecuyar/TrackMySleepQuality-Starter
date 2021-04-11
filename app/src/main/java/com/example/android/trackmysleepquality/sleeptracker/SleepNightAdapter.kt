@@ -26,18 +26,12 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
     class ViewHolder private constructor(val binding: ListItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SleepNight) {
-            val res = itemView.context.resources
-            binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
-            binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
-            binding.qualityImage.setImageResource(when (item.sleepQuality) {
-                0 -> R.drawable.sleep_0
-                1 -> R.drawable.sleep_1
-                2 -> R.drawable.sleep_2
-                3 -> R.drawable.sleep_3
-                4 -> R.drawable.sleep_4
-                5 -> R.drawable.sleep_5
-                else -> R.drawable.sleep_0
-            })
+            binding.sleep = item
+
+            // This call is an optimization that asks data binding to execute any pending bindings right away.
+            // It's always a good idea to call executePendingBindings() when you use binding adapters in a RecyclerView,
+            // because it can slightly speed up sizing the views.
+            binding.executePendingBindings()
         }
 
         companion object {
