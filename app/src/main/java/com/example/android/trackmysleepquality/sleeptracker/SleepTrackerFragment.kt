@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -46,7 +47,9 @@ class SleepTrackerFragment : Fragment() {
         val sleepTrackerViewModel = ViewModelProvider(this, viewModelFactory).get(SleepTrackerViewModel::class.java)
 
         //The RecyclerView needs to know about the adapter to use to get view holders
-        val adapter = SleepNightAdapter()
+        val adapter = SleepNightAdapter(SleepNigthListener { nightId ->
+            Toast.makeText(context, "${nightId}", Toast.LENGTH_SHORT).show()
+        })
         binding.sleepList.adapter = adapter
 
         //Set the current activity as the lifecycle owner of the binding
