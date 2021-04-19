@@ -16,7 +16,7 @@ import com.example.android.trackmysleepquality.databinding.FragmentSleepDetailBi
 class SleepDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         // Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentSleepDetailBinding = DataBindingUtil.inflate(

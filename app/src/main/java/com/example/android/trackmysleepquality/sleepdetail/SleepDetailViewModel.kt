@@ -30,7 +30,6 @@ class SleepDetailViewModel(
 
     fun getNight() = night
 
-
     init {
         night = database.getNightWithId(sleepNightKey)
     }
