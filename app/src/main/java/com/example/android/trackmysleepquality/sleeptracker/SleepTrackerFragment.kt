@@ -86,7 +86,7 @@ class SleepTrackerFragment : Fragment() {
         //removed, moved, or changed.
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                adapter.addHeaderAndSubmitList(it)
             }
         })
 
