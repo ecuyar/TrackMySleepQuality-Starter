@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ClassCastException
 
 private val ITEM_VIEW_TYPE_HEADER = 0
@@ -17,6 +21,8 @@ private val ITEM_VIEW_TYPE_ITEM = 1
 
 //ListAdapter keeps track of the list for you and notifies the adapter when the list is updated.
 class SleepNightAdapter(val clickListener: SleepNigthListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(SleepNightDiffCallback()) {
+
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
@@ -37,11 +43,15 @@ class SleepNightAdapter(val clickListener: SleepNigthListener) : ListAdapter<Dat
     }
 
     fun addHeaderAndSubmitList(list: List<SleepNight>?) {
-        val items = when (list) {
-            null -> listOf(DataItem.Header)
-            else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
+        adapterScope.launch {
+            val items = when (list) {
+                null -> listOf(DataItem.Header)
+                else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
+            }
+            withContext(Dispatchers.Main) {
+                submitList(items)
+            }
         }
-        submitList(items)
     }
 
     override fun getItemViewType(position: Int): Int {
