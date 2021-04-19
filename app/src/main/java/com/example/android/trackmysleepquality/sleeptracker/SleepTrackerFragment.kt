@@ -48,7 +48,8 @@ class SleepTrackerFragment : Fragment() {
 
         //The RecyclerView needs to know about the adapter to use to get view holders
         val adapter = SleepNightAdapter(SleepNigthListener { nightId ->
-            Toast.makeText(context, "${nightId}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "$nightId", Toast.LENGTH_SHORT).show()
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
         })
         binding.sleepList.adapter = adapter
 
@@ -59,7 +60,7 @@ class SleepTrackerFragment : Fragment() {
         //Assign the sleepTrackerViewModel binding variable to the sleepTrackerViewModel
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
-        sleepTrackerViewModel.navigateToSleepWuqlity.observe(viewLifecycleOwner, Observer { night ->
+        sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer { night ->
             night?.let {
                 this.findNavController().navigate(
                         SleepTrackerFragmentDirections
@@ -86,6 +87,15 @@ class SleepTrackerFragment : Fragment() {
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
+            }
+        })
+
+        sleepTrackerViewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer { night ->
+            night?.let {
+                this.findNavController().navigate(
+                        SleepTrackerFragmentDirections
+                                .actionSleepTrackerFragmentToSleepDetailFragment(night))
+                sleepTrackerViewModel.onSleepDetailNavigated()
             }
         })
 

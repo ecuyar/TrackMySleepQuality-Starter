@@ -31,11 +31,12 @@ class SleepTrackerViewModel(
         application: Application) : AndroidViewModel(application) {
 
     private var tonight = MutableLiveData<SleepNight?>()
+
     //private removed because we will create an observer that needs to access this variable
     val nights = database.getAllNights()
     private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
 
-    val navigateToSleepWuqlity: LiveData<SleepNight>
+    val navigateToSleepQuality: LiveData<SleepNight>
         get() = _navigateToSleepQuality
 
     val nightsString = Transformations.map(nights) { nights ->
@@ -127,6 +128,18 @@ class SleepTrackerViewModel(
 
     fun doneShowingSnackBar() {
         _showSnackBarEvent.value = false
+    }
+
+    private val _navigateToSleepDetail = MutableLiveData<Long>()
+    val navigateToSleepDetail
+        get() = _navigateToSleepDetail
+
+    fun onSleepNightClicked(id: Long) {
+        _navigateToSleepDetail.value = id
+    }
+
+    fun onSleepDetailNavigated() {
+        _navigateToSleepDetail.value = null
     }
 
 

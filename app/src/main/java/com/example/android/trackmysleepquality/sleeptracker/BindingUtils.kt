@@ -13,25 +13,31 @@ import com.example.android.trackmysleepquality.database.SleepNight
 //To tell data binding about this binding adapter, annotate the function with @BindingAdapter.
 //This function is the adapter for the sleepDurationFormatted attribute, so pass sleepDurationFormatted as an argument to @BindingAdapter.
 @BindingAdapter("sleepDurationFormatted")
-fun TextView.setSleepDurationFormatted(item: SleepNight) {
-    text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, context.resources)
+fun TextView.setSleepDurationFormatted(item: SleepNight?) {
+    item?.let {
+        text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, context.resources)
+    }
 }
 
 @BindingAdapter("sleepQualityString")
-fun TextView.setSleepQualityString(item: SleepNight) {
-    text = convertNumericQualityToString(item.sleepQuality, context.resources)
+fun TextView.setSleepQualityString(item: SleepNight?) {
+    item?.let {
+        text = convertNumericQualityToString(item.sleepQuality, context.resources)
+    }
 }
 
 @BindingAdapter("sleepImage")
-fun ImageView.setSleepImage(item: SleepNight) {
-    setImageResource(when (item.sleepQuality) {
-        0 -> R.drawable.sleep_0
-        1 -> R.drawable.sleep_1
-        2 -> R.drawable.sleep_2
-        3 -> R.drawable.sleep_3
-        4 -> R.drawable.sleep_4
-        5 -> R.drawable.sleep_5
-        else -> R.drawable.sleep_0
-    })
+fun ImageView.setSleepImage(item: SleepNight?) {
+    item?.let {
+        setImageResource(when (item.sleepQuality) {
+            0 -> R.drawable.sleep_0
+            1 -> R.drawable.sleep_1
+            2 -> R.drawable.sleep_2
+            3 -> R.drawable.sleep_3
+            4 -> R.drawable.sleep_4
+            5 -> R.drawable.sleep_5
+            else -> R.drawable.sleep_0
+        })
+    }
 }
 
